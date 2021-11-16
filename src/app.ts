@@ -12,7 +12,6 @@ const start = async () => {
     await mongoose.connect(mongo_uri);
     app.use(cors());
     app.use(redirectRouter);
-    app.get('/', (_, res) => res.sendStatus(200));
     app.listen(env_port, () => {
         console.log('started');
     });

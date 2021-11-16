@@ -1,14 +1,19 @@
 import { Request, Response, Router } from "express";
-import { getLink } from "../mongoose";
+import { getLink, update_statistic } from "../mongoose";
 
 const router = Router();
 
 router.use(async (req: Request, res: Response) => {
     const path = req.originalUrl;
+    if (path === '/') {
+        res.sendStatus(400);
+        return;
+    }
     const shortPartOfLink = path.slice(1);
 
     const originalLink = await getLink(shortPartOfLink);
-
+    await update_statistic(shortPartOfLink);
+    
     if (originalLink) {
         res.redirect(originalLink);
     } else {
